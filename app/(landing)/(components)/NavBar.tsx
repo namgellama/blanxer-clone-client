@@ -4,13 +4,10 @@ import { Logo } from "@/assets";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 
 const NavBar = () => {
-    const router = useRouter();
-
     return (
-        <nav className="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-black/20 border-b border-white/10">
+        <nav className="fixed top-0 left-0 right-0 backdrop-blur-3xl bg-black/20 border-b border-white/10 z-50">
             <div className="max-w-7xl mx-auto flex items-center justify-between px-8 py-5">
                 <Image src={Logo} alt="Logo" className="size-20" />
 
