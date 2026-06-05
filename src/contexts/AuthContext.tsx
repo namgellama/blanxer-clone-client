@@ -1,5 +1,6 @@
 import { VENDOR_API } from "@/constants/api";
 import api from "@/lib/api";
+import { Store } from "@/redux/slices/vendor-store.slice";
 import {
     createContext,
     Dispatch,
@@ -17,6 +18,9 @@ interface User {
     email: string;
     firstName: string;
     role: UserRole;
+    createdAt: Date;
+    updatedAt: Date;
+    stores: Store[];
 }
 
 interface AuthContextType {
@@ -30,17 +34,14 @@ const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const [user, setUser] = useState<User | null>(null);
-    console.log("🚀 ~ AuthProvider ~ user:", user);
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const isAuthenticated = !!user;
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const getCurrentUser = async () => {
             try {
                 const response = await api.get<User>(VENDOR_API.user.getMe);
-                console.log("🚀 ~ getCurrentUser ~ response:", response);
                 setUser(response.data);
-                setIsAuthenticated(true);
             } catch (error) {
                 console.error("Failed to fetch user:", error);
             } finally {
