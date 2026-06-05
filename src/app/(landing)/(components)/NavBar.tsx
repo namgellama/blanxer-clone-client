@@ -2,6 +2,7 @@
 
 import { Logo } from "@/assets";
 import { Button } from "@/components/ui/button";
+import { VENDOR_API } from "@/constants/api";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -30,11 +31,11 @@ const NavBar = () => {
                 </div>
 
                 <div className="flex gap-4">
-                    <Link href="/login" target="_blank">
+                    <a href={VENDOR_API.auth.login} target="_blank">
                         <Button className="px-5 py-2 rounded-xl border border-white/30 text-sm hover:bg-white/10 transition">
                             Login
                         </Button>
-                    </Link>
+                    </a>
 
                     <Link href="/register" target="_blank">
                         <button className="px-5 py-2 rounded-xl text-sm bg-linear-to-r from-purple-500 to-indigo-600 hover:opacity-90 transition shadow-lg">
