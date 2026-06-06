@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 type StoreUserRole = "OWNER" | "MAANGER" | "STAFF";
 
-export interface Store {
+export interface UserStore {
     id: string;
     name: string;
     slug: string;
@@ -10,7 +10,7 @@ export interface Store {
 }
 
 interface StoreState {
-    store: Store | null;
+    store: UserStore | null;
 }
 
 const savedStore =
@@ -24,7 +24,7 @@ export const vendorStoreSlice = createSlice({
     name: "store",
     initialState,
     reducers: {
-        setStore: (state, action: PayloadAction<{ store: Store }>) => {
+        setStore: (state, action: PayloadAction<{ store: UserStore }>) => {
             const { store } = action.payload;
             state.store = store;
             localStorage.setItem("store", JSON.stringify(store));

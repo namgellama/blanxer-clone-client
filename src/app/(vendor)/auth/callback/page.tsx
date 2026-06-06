@@ -1,11 +1,12 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+
 import { Spinner } from "@/components/ui/spinner";
 import { useAuth } from "@/contexts/AuthContext";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { setStore, Store } from "@/redux/slices/vendor-store.slice";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { setStore, UserStore } from "@/redux/slices/vendor-store.slice";
 
 const AuthCallbackPage = () => {
     const { user, isLoading } = useAuth();
@@ -21,7 +22,7 @@ const AuthCallbackPage = () => {
         }
 
         if (!store) {
-            const selectedStore: Store = user.stores[0];
+            const selectedStore: UserStore = user.stores[0];
             dispatch(
                 setStore({
                     store: selectedStore,

@@ -8,8 +8,13 @@ export const VENDOR_API = {
         refreshToken: `${VENDOR_URL}/auth/refresh-token`,
     },
 
-    // Vendor
+    // User
     user: {
         getMe: `${VENDOR_URL}/users/me`,
+    },
+
+    // Store
+    store: {
+        create: `${VENDOR_URL}/stores`,
     },
 };
