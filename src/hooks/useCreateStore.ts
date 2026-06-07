@@ -1,6 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 
 import storeApi from "@/api/store.api";
+import { UserStoreRole } from "@/redux/slices/vendor-store.slice";
 import { ApiError } from "@/types/api-error";
 import { handleErrorResponse } from "@/utils/handleErrorResponse";
 import { CreateStoreFormFields } from "@/validations/store.validation";
@@ -14,6 +15,7 @@ export interface Store {
     address: string;
     createdAt: Date;
     updatedAt: Date;
+    userRole: UserStoreRole;
 }
 
 export const useCreateStore = () => {

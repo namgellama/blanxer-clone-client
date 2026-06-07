@@ -1,6 +1,5 @@
-import { VENDOR_API } from "@/constants/api";
+import { SHARED_API } from "@/constants/api";
 import api from "@/lib/api";
-import { Store } from "@/redux/slices/vendor-store.slice";
 import {
     createContext,
     Dispatch,
@@ -20,7 +19,6 @@ interface User {
     role: UserRole;
     createdAt: Date;
     updatedAt: Date;
-    stores: Store[];
 }
 
 interface AuthContextType {
@@ -40,7 +38,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     useEffect(() => {
         const getCurrentUser = async () => {
             try {
-                const response = await api.get<User>(VENDOR_API.user.getMe);
+                const response = await api.get<User>(SHARED_API.user.getMe);
                 setUser(response.data);
             } catch (error) {
                 console.error("Failed to fetch user:", error);

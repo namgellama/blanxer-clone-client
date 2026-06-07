@@ -1,12 +1,16 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-type StoreUserRole = "OWNER" | "MAANGER" | "STAFF";
+export type UserStoreRole = "OWNER" | "MAANGER" | "STAFF";
 
 export interface UserStore {
     id: string;
     name: string;
     slug: string;
-    userRole: StoreUserRole;
+    email: string;
+    contactNumber: string;
+    createdAt: Date;
+    updatedAt: Date;
+    userRole: UserStoreRole;
 }
 
 interface StoreState {
