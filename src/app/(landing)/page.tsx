@@ -1,4 +1,4 @@
-import { Footer, Hero, NavBar } from "./(components)";
+import { Footer, Hero, NavBar } from "./_components";
 
 export default function LandingPage() {
     return (

@@ -1,7 +1,9 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import { Controller, useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -18,13 +20,12 @@ import {
     FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { useCreateStore } from "@/hooks/useCreateStore";
+import { useCreateStore } from "@/api/vendor/store/hooks/useCreateStore";
+import { setStore } from "@/redux/slices/vendor/store.slice";
 import storeValidation, {
     CreateStoreFormFields,
-} from "@/validations/store.validation";
-import { useDispatch } from "react-redux";
-import { setStore } from "@/redux/slices/vendor-store.slice";
-import { useRouter } from "next/navigation";
+} from "@/validations/vendor/store.validation";
+import { Spinner } from "@/components/ui/spinner";
 
 const page = () => {
     const form = useForm<CreateStoreFormFields>({
@@ -45,14 +46,11 @@ const page = () => {
         dispatch(
             setStore({
                 store: {
-                    id: newStore.id,
-                    name: newStore.name,
-                    slug: newStore.slug,
+                    ...newStore,
                     userRole: "OWNER",
                 },
             }),
         );
-        router.replace("/dashboard");
     };
 
     return (
@@ -154,8 +152,12 @@ const page = () => {
             </CardContent>
             <CardFooter>
                 <Field orientation="responsive">
-                    <Button type="submit" form="form-store">
-                        Submit
+                    <Button
+                        type="submit"
+                        form="form-store"
+                        disabled={isLoading}
+                    >
+                        {isLoading ? <Spinner /> : "Submit"}
                     </Button>
                 </Field>
             </CardFooter>

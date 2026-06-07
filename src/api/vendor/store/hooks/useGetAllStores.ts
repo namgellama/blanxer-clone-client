@@ -1,8 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { Store } from "./useCreateStore";
-import storeApi from "@/api/store.api";
+import storeApi from "@/api/vendor/store";
 import { ApiError } from "@/types/api-error";
+import { Store } from "@/types/vendor/store";
 
 export const useGetAllStores = () => {
     const {

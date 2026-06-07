@@ -1,23 +1,32 @@
-import { useRouter } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import { ReactNode, useEffect } from "react";
 
-import { useGetAllStores } from "@/hooks/useGetAllStores";
+import { useGetAllStores } from "@/api/vendor/store/hooks/useGetAllStores";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { setStore } from "@/redux/slices/vendor-store.slice";
+import { setStore } from "@/redux/slices/vendor/store.slice";
 
 const StoreProvider = ({ children }: { children: ReactNode }) => {
     const dispatch = useAppDispatch();
-    const { stores } = useGetAllStores();
+    const { stores, isLoading } = useGetAllStores();
     const { store } = useAppSelector((state) => state.vendorStore);
     const router = useRouter();
+    const pathname = usePathname();
 
     useEffect(() => {
-        if (!stores) return;
+        if (isLoading || !stores) return;
 
-        if (stores.length === 0) return router.replace("/stores/new");
+        if (stores.length === 0) {
+            router.replace("/stores/new");
+            return;
+        }
+
+        if (pathname === "/stores/new") {
+            router.replace("/dashboard");
+            return;
+        }
 
         if (!store) dispatch(setStore({ store: stores[0] }));
-    }, [store, stores, dispatch]);
+    }, [isLoading, store, stores, dispatch, router, pathname]);
 
     return <>{children}</>;
 };

@@ -1,20 +1,8 @@
+import { Store } from "@/types/vendor/store";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-export type UserStoreRole = "OWNER" | "MAANGER" | "STAFF";
-
-export interface UserStore {
-    id: string;
-    name: string;
-    slug: string;
-    email: string;
-    contactNumber: string;
-    createdAt: Date;
-    updatedAt: Date;
-    userRole: UserStoreRole;
-}
-
 interface StoreState {
-    store: UserStore | null;
+    store: Store | null;
 }
 
 const savedStore =
@@ -28,7 +16,7 @@ export const vendorStoreSlice = createSlice({
     name: "store",
     initialState,
     reducers: {
-        setStore: (state, action: PayloadAction<{ store: UserStore }>) => {
+        setStore: (state, action: PayloadAction<{ store: Store }>) => {
             const { store } = action.payload;
             state.store = store;
             localStorage.setItem("store", JSON.stringify(store));

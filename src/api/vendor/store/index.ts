@@ -1,7 +1,6 @@
 import { VENDOR_API } from "@/constants/api";
 import api from "@/lib/api";
-import { CreateStoreFormFields } from "@/validations/store.validation";
-import { useQuery } from "@tanstack/react-query";
+import { CreateStoreFormFields } from "@/validations/vendor/store.validation";
 
 const storeApi = {
     // Get all
