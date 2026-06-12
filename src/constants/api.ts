@@ -30,5 +30,7 @@ export const VENDOR_API = {
     collection: {
         getAll: (storeId: string) =>
             `${VENDOR_URL}/stores/${storeId}/collections`,
+        delete: (storeId: string, collectionId: string) =>
+            `${VENDOR_URL}/stores/${storeId}/collections/${collectionId}`,
     },
 };
