@@ -4,10 +4,10 @@ import { ColumnDef } from "@tanstack/react-table";
 import { Trash2 } from "lucide-react";
 import { useState } from "react";
 
-import { Button } from "@/components/ui/button";
-import { Collection } from "@/types/vendor/collection";
-import { DeleteDialog } from "@/components/shared";
 import { useDeleteCollection } from "@/api/vendor/collection/hooks/useDeleteCollection";
+import { IconButton } from "@/components/custom";
+import { DeleteDialog } from "@/components/shared";
+import { Collection } from "@/types/vendor/collection";
 
 export const columns: ColumnDef<Collection>[] = [
     {
@@ -57,14 +57,10 @@ export const columns: ColumnDef<Collection>[] = [
 
             return (
                 <>
-                    <Button
-                        size="icon"
-                        variant="ghost"
-                        className="bg-transparent"
+                    <IconButton
+                        icon={<Trash2 className="text-destructive" />}
                         onClick={() => setIsOpen(true)}
-                    >
-                        <Trash2 className="text-destructive" />
-                    </Button>
+                    />
                     <DeleteDialog
                         isOpen={isOpen}
                         setIsOpen={setIsOpen}

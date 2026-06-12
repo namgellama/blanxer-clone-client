@@ -1,7 +1,7 @@
 import { ChevronRight } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-import { Avatar } from "@/components/custom";
+import { Avatar, IconButton } from "@/components/custom";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import {
@@ -37,13 +37,7 @@ export function AppSidebar() {
                             </h6>
                         </div>
                     </div>
-                    <Button
-                        size="icon"
-                        variant="ghost"
-                        className="hover:bg-transparent"
-                    >
-                        <ChevronRight />
-                    </Button>
+                    <IconButton icon={<ChevronRight />} onClick={() => {}} />
                 </header>
             </SidebarHeader>
             <Separator />
