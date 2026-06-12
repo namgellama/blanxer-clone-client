@@ -26,7 +26,7 @@ export function AppSidebar() {
             <SidebarHeader className="px-4 py-5 cursor-pointer hover:bg-white">
                 <header className="flex items-center justify-between">
                     <div className="flex items-center gap-5">
-                        <Avatar label={store!.name.charAt(0)} />
+                        <Avatar label={store?.name.charAt(0)} />
 
                         <div>
                             <h4 className="font-semibold">

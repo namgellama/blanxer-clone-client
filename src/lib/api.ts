@@ -1,4 +1,4 @@
-import { BASE_URL, VENDOR_API } from "@/constants/api";
+import { BASE_URL, SHARED_API, VENDOR_API } from "@/constants/api";
 import axios, { AxiosRequestConfig, InternalAxiosRequestConfig } from "axios";
 
 export interface AxiosRequestConfigWithRetry extends AxiosRequestConfig {
@@ -19,7 +19,7 @@ api.interceptors.response.use(
     async (error) => {
         const originalRequest = error.config as AxiosRequestConfigWithRetry;
 
-        if (originalRequest.url?.includes(VENDOR_API.auth.refreshToken)) {
+        if (originalRequest.url?.includes(SHARED_API.auth.refreshToken)) {
             return Promise.reject(error);
         }
 
@@ -32,7 +32,7 @@ api.interceptors.response.use(
 
             try {
                 await api.post<{ accessToken: string }>(
-                    VENDOR_API.auth.refreshToken,
+                    SHARED_API.auth.refreshToken,
                 );
 
                 return api(originalRequest);
