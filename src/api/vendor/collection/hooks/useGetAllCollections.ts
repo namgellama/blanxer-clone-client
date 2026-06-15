@@ -5,7 +5,13 @@ import { useQuery } from "@tanstack/react-query";
 import collectionApi from "..";
 import { useAppSelector } from "@/redux/hooks";
 
-export const useGetAllCollections = () => {
+export const useGetAllCollections = ({
+    page,
+    pageSize,
+}: {
+    page: number;
+    pageSize: number;
+}) => {
     const { store } = useAppSelector((state) => state.vendorStore);
 
     const {
@@ -13,8 +19,8 @@ export const useGetAllCollections = () => {
         error,
         isLoading,
     } = useQuery<PaginatedResponse<Collection>, ApiError>({
-        queryFn: () => collectionApi.getAll(store!.id),
-        queryKey: ["collections", store!.id],
+        queryFn: () => collectionApi.getAll(store!.id, { page, pageSize }),
+        queryKey: ["collections", store!.id, page, pageSize],
         enabled: !!store,
     });
 

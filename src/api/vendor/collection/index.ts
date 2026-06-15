@@ -3,8 +3,13 @@ import api from "@/lib/api";
 
 const collectionApi = {
     // Get all
-    getAll: async (storeId: string) => {
-        const response = await api.get(VENDOR_API.collection.getAll(storeId));
+    getAll: async (
+        storeId: string,
+        { page, pageSize }: { page: number; pageSize: number },
+    ) => {
+        const response = await api.get(VENDOR_API.collection.getAll(storeId), {
+            params: { page, page_size: pageSize },
+        });
         return response.data;
     },
 

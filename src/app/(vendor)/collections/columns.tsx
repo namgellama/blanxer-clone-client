@@ -40,35 +40,37 @@ export const columns: ColumnDef<Collection>[] = [
     {
         id: "actions",
         header: "Actions",
-        cell: ({ row }) => {
-            const [isOpen, setIsOpen] = useState(false);
-
-            const collectionId = row.original.id;
-            const collectionName = row.original.name;
-            const { deleteCollectionMutation, isLoading } = useDeleteCollection(
-                collectionId,
-                collectionName,
-            );
-
-            const handleDelete = async () => {
-                deleteCollectionMutation();
-                setIsOpen(false);
-            };
-
-            return (
-                <>
-                    <IconButton
-                        icon={<Trash2 className="text-destructive" />}
-                        onClick={() => setIsOpen(true)}
-                    />
-                    <DeleteDialog
-                        isOpen={isOpen}
-                        setIsOpen={setIsOpen}
-                        handleDelete={handleDelete}
-                        isLoading={isLoading}
-                    />
-                </>
-            );
-        },
+        cell: ({ row }) => <ActionCell collection={row.original} />,
     },
 ];
+
+const ActionCell = ({ collection }: { collection: Collection }) => {
+    const [isOpen, setIsOpen] = useState(false);
+
+    const { deleteCollectionMutation, isLoading } = useDeleteCollection(
+        collection.id,
+        collection.name,
+    );
+
+    const handleDelete = () => {
+        deleteCollectionMutation();
+        setIsOpen(false);
+    };
+
+    return (
+        <>
+            <IconButton
+                icon={<Trash2 className="text-destructive" />}
+                onClick={() => setIsOpen(true)}
+            />
+            <DeleteDialog
+                isOpen={isOpen}
+                setIsOpen={setIsOpen}
+                handleDelete={handleDelete}
+                isLoading={isLoading}
+            />
+        </>
+    );
+};
+
+export default ActionCell;
