@@ -1,12 +1,11 @@
 "use client";
 
-import { useQueryState } from "nuqs";
-
 import { useGetAllCollections } from "@/api/vendor/collection/hooks/useGetAllCollections";
 import { SearchInput } from "@/components/custom";
 import { Button } from "@/components/ui/button";
 import { usePagination } from "@/hooks/usePagination";
 import { useSearch } from "@/hooks/useSearch";
+import { useSort } from "@/hooks/useSort";
 import { getColumns } from "./columns";
 import { DataTable } from "./data-table";
 
@@ -14,11 +13,7 @@ const page = () => {
     const { pageNumber, setPageNumber, pageSize, pagination, setPagination } =
         usePagination();
     const { search, debouncedSearch, handleSearch } = useSearch();
-
-    const [sortBy, setSortBy] = useQueryState("sortBy", {
-        defaultValue: "createdAt",
-    });
-    const [order, setOrder] = useQueryState("order", { defaultValue: "desc" });
+    const { sortBy, order, handleSort } = useSort();
 
     const { collections, isLoading, error } = useGetAllCollections({
         page: pageNumber,
@@ -27,15 +22,6 @@ const page = () => {
         sortBy,
         order,
     });
-
-    const handleSort = (field: string) => {
-        if (sortBy === field) {
-            setOrder(order === "desc" ? "asc" : "desc");
-        } else {
-            setSortBy(field);
-            setOrder("desc");
-        }
-    };
 
     const cols = getColumns(sortBy, order, handleSort);
 
