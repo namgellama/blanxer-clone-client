@@ -1,37 +1,25 @@
 "use client";
 
-import { parseAsInteger, useQueryState } from "nuqs";
+import { useQueryState } from "nuqs";
 
 import { useGetAllCollections } from "@/api/vendor/collection/hooks/useGetAllCollections";
 import { SearchInput } from "@/components/custom";
 import { Button } from "@/components/ui/button";
 import { useDebounce } from "@/hooks/useDebounce";
+import { usePagination } from "@/hooks/usePagination";
 import { getColumns } from "./columns";
 import { DataTable } from "./data-table";
 
 const page = () => {
-    const [pageNumber, setPageNumber] = useQueryState(
-        "page",
-        parseAsInteger.withDefault(1),
-    );
-    const [pageSize, setPageSize] = useQueryState(
-        "pageSize",
-        parseAsInteger.withDefault(10),
-    );
+    const { pageNumber, pageSize, setPageNumber, pagination, setPagination } =
+        usePagination();
+
     const [search, setSearch] = useQueryState("search", { defaultValue: "" });
     const debouncedSearch = useDebounce<string>(search, 500);
     const [sortBy, setSortBy] = useQueryState("sortBy", {
         defaultValue: "createdAt",
     });
     const [order, setOrder] = useQueryState("order", { defaultValue: "desc" });
-
-    const pagination = { pageIndex: pageNumber - 1, pageSize };
-    const setPagination = (updater: any) => {
-        const next =
-            typeof updater === "function" ? updater(pagination) : updater;
-        setPageNumber(next.pageIndex + 1);
-        setPageSize(next.pageSize);
-    };
 
     const { collections, isLoading, error } = useGetAllCollections({
         page: pageNumber,
