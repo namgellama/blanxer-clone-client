@@ -1,46 +1,13 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowDown, ArrowUp, ArrowUpDown, Trash2 } from "lucide-react";
+import { Trash2 } from "lucide-react";
 import { useState } from "react";
 
 import { useDeleteCollection } from "@/api/vendor/collection/hooks/useDeleteCollection";
-import { IconButton } from "@/components/custom";
+import { IconButton, SortButton } from "@/components/custom";
 import { DeleteDialog } from "@/components/shared";
 import { Collection } from "@/types/vendor/collection";
-
-const SortButton = ({
-    field,
-    label,
-    sortBy,
-    order,
-    onSort,
-}: {
-    field: string;
-    label: string;
-    sortBy: string;
-    order: string;
-    onSort: (field: string) => void;
-}) => {
-    const isActive = sortBy === field;
-    return (
-        <button
-            className="flex items-center gap-1"
-            onClick={() => onSort(field)}
-        >
-            {label}
-            {isActive ? (
-                order === "asc" ? (
-                    <ArrowUp size={14} />
-                ) : (
-                    <ArrowDown size={14} />
-                )
-            ) : (
-                <ArrowUpDown size={14} className="text-muted-foreground" />
-            )}
-        </button>
-    );
-};
 
 export const getColumns = (
     sortBy: string,
