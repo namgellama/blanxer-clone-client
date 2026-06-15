@@ -6,7 +6,7 @@ import { useGetAllCollections } from "@/api/vendor/collection/hooks/useGetAllCol
 import { SearchInput } from "@/components/custom";
 import { Button } from "@/components/ui/button";
 import { useDebounce } from "@/hooks/useDebounce";
-import { columns } from "./columns";
+import { getColumns } from "./columns";
 import { DataTable } from "./data-table";
 
 const page = () => {
@@ -20,6 +20,10 @@ const page = () => {
     );
     const [search, setSearch] = useQueryState("search", { defaultValue: "" });
     const debouncedSearch = useDebounce<string>(search, 500);
+    const [sortBy, setSortBy] = useQueryState("sortBy", {
+        defaultValue: "created_at",
+    });
+    const [order, setOrder] = useQueryState("order", { defaultValue: "desc" });
 
     const pagination = { pageIndex: pageNumber - 1, pageSize };
     const setPagination = (updater: any) => {
@@ -33,12 +37,25 @@ const page = () => {
         page: pageNumber,
         pageSize,
         search: debouncedSearch,
+        sortBy,
+        order,
     });
 
     const handleSearch = (value: string) => {
         setSearch(value);
         setPageNumber(1);
     };
+
+    const handleSort = (field: string) => {
+        if (sortBy === field) {
+            setOrder(order === "desc" ? "asc" : "desc");
+        } else {
+            setSortBy(field);
+            setOrder("desc");
+        }
+    };
+
+    const cols = getColumns(sortBy, order, handleSort);
 
     return (
         <div className="w-full space-y-4">
@@ -56,7 +73,7 @@ const page = () => {
             </header>
 
             <DataTable
-                columns={columns}
+                columns={cols}
                 data={collections?.data ?? []}
                 pagination={pagination}
                 pageCount={collections?.totalPages ?? 0}

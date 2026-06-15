@@ -9,10 +9,24 @@ const collectionApi = {
             page,
             pageSize,
             search,
-        }: { page: number; pageSize: number; search?: string },
+            sortBy,
+            order,
+        }: {
+            page: number;
+            pageSize: number;
+            search: string;
+            sortBy: string;
+            order: string;
+        },
     ) => {
         const response = await api.get(VENDOR_API.collection.getAll(storeId), {
-            params: { page, page_size: pageSize, search },
+            params: {
+                page,
+                page_size: pageSize,
+                search,
+                sort_by: sortBy,
+                order,
+            },
         });
         return response.data;
     },
