@@ -8,12 +8,18 @@ import {
 
 interface Props {
     placeholder: string;
+    value: string;
+    onChange: (value: string) => void;
 }
 
-const SearchInput = ({ placeholder }: Props) => {
+const SearchInput = ({ placeholder, value, onChange }: Props) => {
     return (
         <InputGroup className="bg-white">
-            <InputGroupInput placeholder={placeholder} />
+            <InputGroupInput
+                placeholder={placeholder}
+                value={value}
+                onChange={(e) => onChange(e.target.value)}
+            />
             <InputGroupAddon>
                 <Search />
             </InputGroupAddon>

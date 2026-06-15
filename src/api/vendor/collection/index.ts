@@ -5,10 +5,14 @@ const collectionApi = {
     // Get all
     getAll: async (
         storeId: string,
-        { page, pageSize }: { page: number; pageSize: number },
+        {
+            page,
+            pageSize,
+            search,
+        }: { page: number; pageSize: number; search?: string },
     ) => {
         const response = await api.get(VENDOR_API.collection.getAll(storeId), {
-            params: { page, page_size: pageSize },
+            params: { page, page_size: pageSize, search },
         });
         return response.data;
     },

@@ -1,12 +1,13 @@
 "use client";
 
-import { useQueryState, parseAsInteger } from "nuqs";
+import { parseAsInteger, useQueryState } from "nuqs";
 
 import { useGetAllCollections } from "@/api/vendor/collection/hooks/useGetAllCollections";
 import { SearchInput } from "@/components/custom";
 import { Button } from "@/components/ui/button";
-import { DataTable } from "./data-table";
+import { useDebounce } from "@/hooks/useDebounce";
 import { columns } from "./columns";
+import { DataTable } from "./data-table";
 
 const page = () => {
     const [pageNumber, setPageNumber] = useQueryState(
@@ -17,6 +18,8 @@ const page = () => {
         "pageSize",
         parseAsInteger.withDefault(10),
     );
+    const [search, setSearch] = useQueryState("search", { defaultValue: "" });
+    const debouncedSearch = useDebounce<string>(search, 500);
 
     const pagination = { pageIndex: pageNumber - 1, pageSize };
     const setPagination = (updater: any) => {
@@ -25,10 +28,17 @@ const page = () => {
         setPageNumber(next.pageIndex + 1);
         setPageSize(next.pageSize);
     };
+
     const { collections, isLoading, error } = useGetAllCollections({
         page: pageNumber,
         pageSize,
+        search: debouncedSearch,
     });
+
+    const handleSearch = (value: string) => {
+        setSearch(value);
+        setPageNumber(1);
+    };
 
     return (
         <div className="w-full space-y-4">
@@ -36,7 +46,11 @@ const page = () => {
                 <h2 className="font-bold text-xl">Store Collections</h2>
 
                 <div className="flex items-center gap-4">
-                    <SearchInput placeholder="Search name or slug" />
+                    <SearchInput
+                        placeholder="Search name or slug"
+                        value={search}
+                        onChange={handleSearch}
+                    />
                     <Button className="rounded-xs">Add Collection</Button>
                 </div>
             </header>

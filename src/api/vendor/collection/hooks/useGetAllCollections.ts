@@ -8,9 +8,11 @@ import { useAppSelector } from "@/redux/hooks";
 export const useGetAllCollections = ({
     page,
     pageSize,
+    search,
 }: {
     page: number;
     pageSize: number;
+    search?: string;
 }) => {
     const { store } = useAppSelector((state) => state.vendorStore);
 
@@ -19,8 +21,9 @@ export const useGetAllCollections = ({
         error,
         isLoading,
     } = useQuery<PaginatedResponse<Collection>, ApiError>({
-        queryFn: () => collectionApi.getAll(store!.id, { page, pageSize }),
-        queryKey: ["collections", store!.id, page, pageSize],
+        queryFn: () =>
+            collectionApi.getAll(store!.id, { page, pageSize, search }),
+        queryKey: ["collections", store!.id, page, pageSize, search],
         enabled: !!store,
     });
 
