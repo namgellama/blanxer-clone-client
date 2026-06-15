@@ -2,7 +2,9 @@
 
 import { useGetAllCollections } from "@/api/vendor/collection/hooks/useGetAllCollections";
 import { SearchInput } from "@/components/custom";
+import { ErrorAlert } from "@/components/shared";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import { usePagination } from "@/hooks/usePagination";
 import { useSearch } from "@/hooks/useSearch";
 import { useSort } from "@/hooks/useSort";
@@ -43,13 +45,24 @@ const page = () => {
                 </div>
             </header>
 
-            <DataTable
-                columns={cols}
-                data={collections?.data ?? []}
-                pagination={pagination}
-                pageCount={collections?.totalPages ?? 0}
-                onPaginationChange={setPagination}
-            />
+            {isLoading ? (
+                <Skeleton className="w-full h-screen" />
+            ) : error ? (
+                <ErrorAlert
+                    message={
+                        error?.response?.data.detail ??
+                        "Error occurred while fetching collections"
+                    }
+                />
+            ) : (
+                <DataTable
+                    columns={cols}
+                    data={collections?.data ?? []}
+                    pagination={pagination}
+                    pageCount={collections?.totalPages ?? 0}
+                    onPaginationChange={setPagination}
+                />
+            )}
         </div>
     );
 };
