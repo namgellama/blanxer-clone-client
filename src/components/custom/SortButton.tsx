@@ -1,5 +1,7 @@
 import { ArrowDown, ArrowUp, ArrowUpDown } from "lucide-react";
 
+import { Button } from "../ui/button";
+
 const SortButton = ({
     field,
     label,
@@ -15,8 +17,9 @@ const SortButton = ({
 }) => {
     const isActive = sortBy === field;
     return (
-        <button
-            className="flex items-center gap-1"
+        <Button
+            variant="ghost"
+            className="flex items-center gap-2 hover:bg-transparent"
             onClick={() => onSort(field)}
         >
             {label}
@@ -29,7 +32,7 @@ const SortButton = ({
             ) : (
                 <ArrowUpDown size={14} className="text-muted-foreground" />
             )}
-        </button>
+        </Button>
     );
 };
 

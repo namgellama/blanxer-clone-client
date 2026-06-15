@@ -22,9 +22,9 @@ const collectionApi = {
         const response = await api.get(VENDOR_API.collection.getAll(storeId), {
             params: {
                 page,
-                page_size: pageSize,
+                pageSize,
                 search,
-                sort_by: sortBy,
+                sortBy,
                 order,
             },
         });

@@ -21,7 +21,7 @@ const page = () => {
     const [search, setSearch] = useQueryState("search", { defaultValue: "" });
     const debouncedSearch = useDebounce<string>(search, 500);
     const [sortBy, setSortBy] = useQueryState("sortBy", {
-        defaultValue: "created_at",
+        defaultValue: "createdAt",
     });
     const [order, setOrder] = useQueryState("order", { defaultValue: "desc" });
 
