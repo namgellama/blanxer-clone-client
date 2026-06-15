@@ -25,4 +25,12 @@ export const VENDOR_API = {
         getAll: `${VENDOR_URL}/stores`,
         create: `${VENDOR_URL}/stores`,
     },
+
+    // Collection
+    collection: {
+        getAll: (storeId: string) =>
+            `${VENDOR_URL}/stores/${storeId}/collections`,
+        delete: (storeId: string, collectionId: string) =>
+            `${VENDOR_URL}/stores/${storeId}/collections/${collectionId}`,
+    },
 };

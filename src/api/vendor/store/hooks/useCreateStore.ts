@@ -12,11 +12,11 @@ export const useCreateStore = () => {
     const { mutateAsync: createStoreMutation, isPending: isLoading } =
         useMutation<Store, ApiError, CreateStoreFormFields>({
             mutationFn: storeApi.create,
-            onError: (error) => {
-                handleErrorResponse(error, "Error creating store");
-            },
             onSuccess: () => {
                 queryClient.invalidateQueries({ queryKey: ["stores"] });
+            },
+            onError: (error) => {
+                handleErrorResponse(error, "Error creating store");
             },
         });
 

@@ -19,7 +19,7 @@ export const links = [
         items: [
             { icon: House, label: "Home", path: "/dashboard" },
             { icon: Users, label: "Store Users", path: "/store-users" },
-            { icon: LayoutGrid, label: "Categories", path: "/categories" },
+            { icon: LayoutGrid, label: "Collections", path: "/collections" },
             { icon: Gift, label: "Products", path: "/products" },
             { icon: UserCheck, label: "Customers", path: "/customers" },
             { icon: ShoppingBasket, label: "Orders", path: "/orders" },

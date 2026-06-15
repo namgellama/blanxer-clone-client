@@ -13,7 +13,7 @@ const layout = ({ children }: { children: ReactNode }) => {
             <StoreProvider>
                 <SidebarProvider>
                     <AppSidebar />
-                    {children}
+                    <main className="p-4 w-full">{children}</main>
                 </SidebarProvider>
             </StoreProvider>
         </AuthProvider>

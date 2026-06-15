@@ -4,7 +4,7 @@ import {
     Avatar as ShadcnAvatar,
 } from "@/components/ui/avatar";
 
-const Avatar = ({ label }: { label: string }) => {
+const Avatar = ({ label }: { label: string | undefined }) => {
     return (
         <ShadcnAvatar size="lg">
             <AvatarImage src="" />

@@ -1,7 +1,7 @@
 import { ChevronRight } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-import { Avatar } from "@/components/custom";
+import { Avatar, IconButton } from "@/components/custom";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import {
@@ -26,7 +26,7 @@ export function AppSidebar() {
             <SidebarHeader className="px-4 py-5 cursor-pointer hover:bg-white">
                 <header className="flex items-center justify-between">
                     <div className="flex items-center gap-5">
-                        <Avatar label={store!.name.charAt(0)} />
+                        <Avatar label={store?.name.charAt(0)} />
 
                         <div>
                             <h4 className="font-semibold">
@@ -37,13 +37,7 @@ export function AppSidebar() {
                             </h6>
                         </div>
                     </div>
-                    <Button
-                        size="icon"
-                        variant="ghost"
-                        className="hover:bg-transparent"
-                    >
-                        <ChevronRight />
-                    </Button>
+                    <IconButton icon={<ChevronRight />} onClick={() => {}} />
                 </header>
             </SidebarHeader>
             <Separator />
