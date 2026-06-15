@@ -5,17 +5,16 @@ import { useQueryState } from "nuqs";
 import { useGetAllCollections } from "@/api/vendor/collection/hooks/useGetAllCollections";
 import { SearchInput } from "@/components/custom";
 import { Button } from "@/components/ui/button";
-import { useDebounce } from "@/hooks/useDebounce";
 import { usePagination } from "@/hooks/usePagination";
+import { useSearch } from "@/hooks/useSearch";
 import { getColumns } from "./columns";
 import { DataTable } from "./data-table";
 
 const page = () => {
-    const { pageNumber, pageSize, setPageNumber, pagination, setPagination } =
+    const { pageNumber, setPageNumber, pageSize, pagination, setPagination } =
         usePagination();
+    const { search, debouncedSearch, handleSearch } = useSearch();
 
-    const [search, setSearch] = useQueryState("search", { defaultValue: "" });
-    const debouncedSearch = useDebounce<string>(search, 500);
     const [sortBy, setSortBy] = useQueryState("sortBy", {
         defaultValue: "createdAt",
     });
@@ -28,11 +27,6 @@ const page = () => {
         sortBy,
         order,
     });
-
-    const handleSearch = (value: string) => {
-        setSearch(value);
-        setPageNumber(1);
-    };
 
     const handleSort = (field: string) => {
         if (sortBy === field) {
@@ -54,7 +48,10 @@ const page = () => {
                     <SearchInput
                         placeholder="Search name or slug"
                         value={search}
-                        onChange={handleSearch}
+                        onChange={(value: string) => {
+                            handleSearch(value);
+                            setPageNumber(1);
+                        }}
                     />
                     <Button className="rounded-xs">Add Collection</Button>
                 </div>

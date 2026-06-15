@@ -15,7 +15,13 @@ export const usePagination = (pageSizeValue: number = 10) => {
     const setPagination = (updater: any) => {
         const next =
             typeof updater === "function" ? updater(pagination) : updater;
-        setPageNumber(next.pageIndex + 1);
+
+        if (next.pageSize !== pageSize) {
+            setPageNumber(1); // reset to first page on page size change
+        } else {
+            setPageNumber(next.pageIndex + 1);
+        }
+
         setPageSize(next.pageSize);
     };
 
