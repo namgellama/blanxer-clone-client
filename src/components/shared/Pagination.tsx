@@ -45,18 +45,19 @@ const Pagination = <TData,>({ table }: { table: Table<TData> }) => {
     };
 
     return (
-        <div className="flex items-center justify-between gap-4">
+        <div className="flex items-center justify-between gap-4 p-4">
             <PageSize
                 pageSize={table.getState().pagination.pageSize}
                 setPageSize={(value: number) => table.setPageSize(value)}
             />
 
             <ShadcnPagination className="mx-0 w-auto">
-                <PaginationContent>
+                <PaginationContent className="space-x-2">
                     <PaginationItem>
                         <Button
                             variant="outline"
                             size="sm"
+                            className="disabled:border-2 bg-white"
                             onClick={() => table.previousPage()}
                             disabled={!table.getCanPreviousPage()}
                         >
@@ -74,7 +75,7 @@ const Pagination = <TData,>({ table }: { table: Table<TData> }) => {
                                 <PaginationLink
                                     isActive={p === currentPage}
                                     onClick={() => table.setPageIndex(p - 1)}
-                                    className="cursor-pointer"
+                                    className={`cursor-pointer ${p === currentPage && "border-2 bg-white"}`}
                                 >
                                     {p}
                                 </PaginationLink>
@@ -86,6 +87,7 @@ const Pagination = <TData,>({ table }: { table: Table<TData> }) => {
                         <Button
                             variant="outline"
                             size="sm"
+                            className="disabled:border-2 bg-white"
                             onClick={() => table.nextPage()}
                             disabled={!table.getCanNextPage()}
                         >
