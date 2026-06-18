@@ -1,9 +1,12 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { FileWithPath } from "@mantine/dropzone";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 
 import { useUploadImage } from "@/api/shared/media/hooks/useUploadImage";
 import { useCreateCollection } from "@/api/vendor/collection/hooks/useCreateCollection";
+import { useUpdateCollection } from "@/api/vendor/collection/hooks/useUpdateCollection";
 import { Dropzone } from "@/components/shared";
 import { Button } from "@/components/ui/button";
 import {
@@ -27,14 +30,12 @@ import { Collection } from "@/types/vendor/collection";
 import collectionValidation, {
     CreateCollectionFormFields,
 } from "@/validations/vendor/collection.validation";
-import { FileWithPath } from "@mantine/dropzone";
-import toast from "react-hot-toast";
 
 interface Props {
     isOpen: boolean;
     setIsOpen: Dispatch<SetStateAction<boolean>>;
-    selectedItem: Collection | null;
-    setSelectedItem: Dispatch<SetStateAction<Collection | null>>;
+    selectedItem?: Collection | null;
+    setSelectedItem?: Dispatch<SetStateAction<Collection | null>>;
 }
 
 const CollectionAddDialog = ({
@@ -56,6 +57,8 @@ const CollectionAddDialog = ({
 
     const { createCollectionMutation, isLoading: isCreateCollectionLoading } =
         useCreateCollection();
+    const { updateCollectionMutation, isLoading: isUpdateCollectionLoading } =
+        useUpdateCollection();
     const { uploadImageMutation, isLoading: isUploadImageLoading } =
         useUploadImage();
 
@@ -79,11 +82,22 @@ const CollectionAddDialog = ({
     };
 
     const onSubmit = async (data: CreateCollectionFormFields) => {
-        if (previewImage)
-            await createCollectionMutation({ ...data, image: previewImage });
+        if (!selectedItem) {
+            if (previewImage)
+                await createCollectionMutation({
+                    ...data,
+                    image: previewImage,
+                });
+        } else {
+            await updateCollectionMutation({
+                collectionId: selectedItem.id,
+                data,
+            });
+        }
         form.reset();
-        setPreviewImage(null);
         setIsOpen(false);
+        setPreviewImage(null);
+        setSelectedItem?.(null);
     };
 
     return (
@@ -139,13 +153,17 @@ const CollectionAddDialog = ({
                 <DialogFooter>
                     <Button
                         disabled={
-                            isCreateCollectionLoading || isUploadImageLoading
+                            isCreateCollectionLoading ||
+                            isUpdateCollectionLoading ||
+                            isUploadImageLoading
                         }
                         type="submit"
                         form="form-collection"
                         className="w-24"
                     >
-                        {isCreateCollectionLoading || isUploadImageLoading ? (
+                        {isCreateCollectionLoading ||
+                        isUpdateCollectionLoading ||
+                        isUploadImageLoading ? (
                             <Spinner />
                         ) : (
                             "Save"

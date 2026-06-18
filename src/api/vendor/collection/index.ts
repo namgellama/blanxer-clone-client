@@ -43,6 +43,20 @@ const collectionApi = {
         return response.data;
     },
 
+    // Update
+    update: async (
+        storeId: string,
+        collectionId: string,
+        data: CreateCollectionFormFields,
+    ) => {
+        const response = await api.patch(
+            VENDOR_API.collection.update(storeId, collectionId),
+            data,
+        );
+
+        return response.data;
+    },
+
     // Delete
     delete: async (storeId: string, collectionId: string) => {
         await api.delete(VENDOR_API.collection.delete(storeId, collectionId));

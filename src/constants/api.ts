@@ -38,6 +38,8 @@ export const VENDOR_API = {
             `${VENDOR_URL}/stores/${storeId}/collections`,
         create: (storeId: string) =>
             `${VENDOR_URL}/stores/${storeId}/collections`,
+        update: (storeId: string, collectionId: string) =>
+            `${VENDOR_URL}/stores/${storeId}/collections/${collectionId}`,
         delete: (storeId: string, collectionId: string) =>
             `${VENDOR_URL}/stores/${storeId}/collections/${collectionId}`,
     },
