@@ -4,7 +4,7 @@ import { ReactNode } from "react";
 
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { AuthProvider } from "@/contexts/AuthContext";
-import { AppSidebar } from "./_components/AppSidebar";
+import { AppSidebar } from "./_components";
 import StoreProvider from "./store-provider";
 
 const layout = ({ children }: { children: ReactNode }) => {

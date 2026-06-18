@@ -1,7 +1,8 @@
-import { useParams, usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { ReactNode, useEffect } from "react";
 
 import { useGetAllStores } from "@/api/vendor/store/hooks/useGetAllStores";
+import { Spinner } from "@/components/ui/spinner";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { setStore } from "@/redux/slices/vendor/store.slice";
 
@@ -27,6 +28,13 @@ const StoreProvider = ({ children }: { children: ReactNode }) => {
 
         if (!store) dispatch(setStore({ store: stores[0] }));
     }, [isLoading, store, stores, dispatch, router, pathname]);
+
+    if (isLoading || !stores)
+        return (
+            <div className="w-full h-screen flex items-center justify-center">
+                <Spinner className="size-8" />
+            </div>
+        );
 
     return <>{children}</>;
 };

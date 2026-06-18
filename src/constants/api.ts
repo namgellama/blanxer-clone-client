@@ -12,6 +12,12 @@ export const SHARED_API = {
     user: {
         getMe: `${BASE_URL}/users/me`,
     },
+
+    // Media
+    media: {
+        uploadImage: `${BASE_URL}/media/images`,
+        delete: (mediaUrl: string) => `${BASE_URL}/media/images/${mediaUrl}`,
+    },
 };
 
 export const VENDOR_API = {
@@ -30,6 +36,10 @@ export const VENDOR_API = {
     collection: {
         getAll: (storeId: string) =>
             `${VENDOR_URL}/stores/${storeId}/collections`,
+        create: (storeId: string) =>
+            `${VENDOR_URL}/stores/${storeId}/collections`,
+        update: (storeId: string, collectionId: string) =>
+            `${VENDOR_URL}/stores/${storeId}/collections/${collectionId}`,
         delete: (storeId: string, collectionId: string) =>
             `${VENDOR_URL}/stores/${storeId}/collections/${collectionId}`,
     },
