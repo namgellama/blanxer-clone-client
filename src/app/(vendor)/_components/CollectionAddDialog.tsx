@@ -1,8 +1,10 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 
+import { useUploadImage } from "@/api/shared/media/hooks/useUploadImage";
 import { useCreateCollection } from "@/api/vendor/collection/hooks/useCreateCollection";
+import { Dropzone } from "@/components/shared";
 import { Button } from "@/components/ui/button";
 import {
     Dialog,
@@ -18,36 +20,52 @@ import {
     FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Spinner } from "@/components/ui/spinner";
+import { useAppSelector } from "@/redux/hooks";
+import { Collection } from "@/types/vendor/collection";
 import collectionValidation, {
     CreateCollectionFormFields,
 } from "@/validations/vendor/collection.validation";
-import { Dropzone } from "@/components/shared";
-import { useUploadImage } from "@/api/shared/media/hooks/useUploadImage";
 import { FileWithPath } from "@mantine/dropzone";
-import { useAppSelector } from "@/redux/hooks";
-import { SimpleGrid } from "@mantine/core";
 import toast from "react-hot-toast";
-import { Label } from "@/components/ui/label";
 
 interface Props {
     isOpen: boolean;
     setIsOpen: Dispatch<SetStateAction<boolean>>;
+    selectedItem: Collection | null;
+    setSelectedItem: Dispatch<SetStateAction<Collection | null>>;
 }
 
-const CollectionAddDialog = ({ isOpen, setIsOpen }: Props) => {
+const CollectionAddDialog = ({
+    isOpen,
+    setIsOpen,
+    selectedItem,
+    setSelectedItem,
+}: Props) => {
     const [previewImage, setPreviewImage] = useState<string | null>(null);
     const { store } = useAppSelector((state) => state.vendorStore);
+
     const form = useForm<CreateCollectionFormFields>({
         resolver: zodResolver(collectionValidation.createCollection),
         defaultValues: {
-            name: "",
+            name: selectedItem?.name ?? "",
+            image: selectedItem?.image ?? "",
         },
     });
+
     const { createCollectionMutation, isLoading: isCreateCollectionLoading } =
         useCreateCollection();
     const { uploadImageMutation, isLoading: isUploadImageLoading } =
         useUploadImage();
+
+    useEffect(() => {
+        if (!selectedItem) return;
+
+        form.setValue("name", selectedItem.name);
+        form.setValue("image", selectedItem.image);
+        setPreviewImage(selectedItem.image);
+    }, [selectedItem, form]);
 
     const handleDrop = async (files: FileWithPath[]) => {
         const formData = new FormData();
@@ -63,6 +81,8 @@ const CollectionAddDialog = ({ isOpen, setIsOpen }: Props) => {
     const onSubmit = async (data: CreateCollectionFormFields) => {
         if (previewImage)
             await createCollectionMutation({ ...data, image: previewImage });
+        form.reset();
+        setPreviewImage(null);
         setIsOpen(false);
     };
 

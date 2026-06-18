@@ -4,7 +4,7 @@ import { Button } from "../ui/button";
 
 interface Props {
     icon: ReactNode;
-    onClick: () => void;
+    onClick: React.MouseEventHandler<HTMLButtonElement>;
     size?:
         | "icon"
         | "default"
@@ -26,6 +26,7 @@ const IconButton = ({ icon, size = "icon", onClick, className }: Props) => {
             variant="ghost"
             className={`bg-transparent ${className}`}
             onClick={onClick}
+            type="button"
         >
             {icon}
         </Button>

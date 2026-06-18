@@ -9,6 +9,7 @@ import {
     PaginationState,
     useReactTable,
 } from "@tanstack/react-table";
+import { useState } from "react";
 
 import { Pagination } from "@/components/shared";
 import {
@@ -19,6 +20,8 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
+import { Collection } from "@/types/vendor/collection";
+import { CollectionAddDialog } from "../_components";
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
@@ -35,6 +38,9 @@ export function DataTable<TData, TValue>({
     pageCount,
     onPaginationChange,
 }: DataTableProps<TData, TValue>) {
+    const [isOpen, setIsOpen] = useState(false);
+    const [selectedItem, setSelectedItem] = useState<Collection | null>(null);
+
     const table = useReactTable({
         data,
         columns,
@@ -74,6 +80,10 @@ export function DataTable<TData, TValue>({
                             <TableRow
                                 key={row.id}
                                 data-state={row.getIsSelected() && "selected"}
+                                onClick={() => {
+                                    setIsOpen(true);
+                                    setSelectedItem(row.original as Collection);
+                                }}
                             >
                                 {row.getVisibleCells().map((cell) => (
                                     <TableCell key={cell.id}>
@@ -98,6 +108,13 @@ export function DataTable<TData, TValue>({
                 </TableBody>
             </Table>
             <Pagination table={table} />
+
+            <CollectionAddDialog
+                isOpen={isOpen}
+                setIsOpen={setIsOpen}
+                selectedItem={selectedItem}
+                setSelectedItem={setSelectedItem}
+            />
         </div>
     );
 }

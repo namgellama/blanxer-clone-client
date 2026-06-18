@@ -12,6 +12,7 @@ import { ImageIcon, Upload, X, XIcon } from "lucide-react";
 
 import { IconButton } from "../custom";
 import { Dispatch, SetStateAction } from "react";
+import { useDeleteMedia } from "@/api/shared/media/hooks/useDeleteMedia";
 
 interface Props {
     props?: Partial<DropzoneProps>;
@@ -28,6 +29,8 @@ const Dropzone = ({
     preview,
     setPreview,
 }: Props) => {
+    const { deleteMediaMutation, isLoading } = useDeleteMedia();
+
     return (
         <MantineProvider>
             {preview ? (
@@ -35,7 +38,11 @@ const Dropzone = ({
                     <IconButton
                         size="icon-xs"
                         icon={<XIcon className="size-4" />}
-                        onClick={() => setPreview(null)}
+                        onClick={async (e) => {
+                            e.stopPropagation();
+                            await deleteMediaMutation(preview);
+                            setPreview(null);
+                        }}
                         className="border-2 rounded-full text-destructive"
                     />
                     <Image

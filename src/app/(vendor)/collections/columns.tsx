@@ -103,7 +103,7 @@ const ActionCell = ({ collection }: { collection: Collection }) => {
     };
 
     return (
-        <>
+        <div onClick={(e) => e.stopPropagation()}>
             <IconButton
                 icon={<Trash2 className="text-destructive" />}
                 onClick={() => setIsOpen(true)}
@@ -114,7 +114,7 @@ const ActionCell = ({ collection }: { collection: Collection }) => {
                 handleDelete={handleDelete}
                 isLoading={isLoading}
             />
-        </>
+        </div>
     );
 };
 

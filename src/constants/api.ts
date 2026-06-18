@@ -16,6 +16,7 @@ export const SHARED_API = {
     // Media
     media: {
         uploadImage: `${BASE_URL}/media/images`,
+        delete: (mediaUrl: string) => `${BASE_URL}/media/images/${mediaUrl}`,
     },
 };
 
