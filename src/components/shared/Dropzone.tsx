@@ -11,15 +11,23 @@ import "@mantine/dropzone/styles.css";
 import { ImageIcon, Upload, X, XIcon } from "lucide-react";
 
 import { IconButton } from "../custom";
+import { Dispatch, SetStateAction } from "react";
 
 interface Props {
     props?: Partial<DropzoneProps>;
     handleDrop: (files: FileWithPath[]) => void;
     handleReject: (files: FileRejection[]) => void;
     preview: string | null;
+    setPreview: Dispatch<SetStateAction<string | null>>;
 }
 
-const Dropzone = ({ props, handleDrop, handleReject, preview }: Props) => {
+const Dropzone = ({
+    props,
+    handleDrop,
+    handleReject,
+    preview,
+    setPreview,
+}: Props) => {
     return (
         <MantineProvider>
             {preview ? (
@@ -27,7 +35,7 @@ const Dropzone = ({ props, handleDrop, handleReject, preview }: Props) => {
                     <IconButton
                         size="icon-xs"
                         icon={<XIcon className="size-4" />}
-                        onClick={() => console.log("hello")}
+                        onClick={() => setPreview(null)}
                         className="border-2 rounded-full text-destructive"
                     />
                     <Image

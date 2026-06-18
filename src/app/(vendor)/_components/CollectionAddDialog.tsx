@@ -56,7 +56,6 @@ const CollectionAddDialog = ({ isOpen, setIsOpen }: Props) => {
         formData.append("prefix", "collection");
 
         const image = await uploadImageMutation(formData);
-        console.log("🚀 ~ handleDrop ~ image:", image);
         setPreviewImage(image);
         form.setValue("image", image);
     };
@@ -110,6 +109,7 @@ const CollectionAddDialog = ({ isOpen, setIsOpen }: Props) => {
                                     toast.error("Error uploading file")
                                 }
                                 preview={previewImage}
+                                setPreview={setPreviewImage}
                                 props={{ style: { height: "200px" } }}
                             />
                         </div>
