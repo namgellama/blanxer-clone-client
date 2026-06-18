@@ -17,7 +17,7 @@ import {
 import { useAppSelector } from "@/redux/hooks";
 import { links } from "@/constants/vendor/menu-links";
 
-export function AppSidebar() {
+const AppSidebar = () => {
     const { store } = useAppSelector((state) => state.vendorStore);
     const router = useRouter();
 
@@ -69,4 +69,6 @@ export function AppSidebar() {
             <SidebarFooter />
         </Sidebar>
     );
-}
+};
+
+export default AppSidebar;

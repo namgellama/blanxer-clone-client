@@ -1,5 +1,6 @@
 import { VENDOR_API } from "@/constants/api";
 import api from "@/lib/api";
+import { CreateCollectionFormFields } from "@/validations/vendor/collection.validation";
 
 const collectionApi = {
     // Get all
@@ -28,6 +29,17 @@ const collectionApi = {
                 order,
             },
         });
+
+        return response.data;
+    },
+
+    // Create
+    create: async (storeId: string, data: CreateCollectionFormFields) => {
+        const response = await api.post(
+            VENDOR_API.collection.create(storeId),
+            data,
+        );
+
         return response.data;
     },
 

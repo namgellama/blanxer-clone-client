@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+
 import { useGetAllCollections } from "@/api/vendor/collection/hooks/useGetAllCollections";
 import { SearchInput } from "@/components/custom";
 import { ErrorAlert } from "@/components/shared";
@@ -8,10 +10,12 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { usePagination } from "@/hooks/usePagination";
 import { useSearch } from "@/hooks/useSearch";
 import { useSort } from "@/hooks/useSort";
+import { CollectionAddDialog } from "../_components";
 import { getColumns } from "./columns";
 import { DataTable } from "./data-table";
 
 const page = () => {
+    const [isOpen, setIsOpen] = useState(false);
     const { pageNumber, setPageNumber, pageSize, pagination, setPagination } =
         usePagination();
     const { search, debouncedSearch, handleSearch } = useSearch();
@@ -41,7 +45,12 @@ const page = () => {
                             setPageNumber(1);
                         }}
                     />
-                    <Button className="rounded-xs">Add Collection</Button>
+                    <Button
+                        className="rounded-xs"
+                        onClick={() => setIsOpen(true)}
+                    >
+                        Add Collection
+                    </Button>
                 </div>
             </header>
 
@@ -63,6 +72,8 @@ const page = () => {
                     onPaginationChange={setPagination}
                 />
             )}
+
+            <CollectionAddDialog isOpen={isOpen} setIsOpen={setIsOpen} />
         </div>
     );
 };

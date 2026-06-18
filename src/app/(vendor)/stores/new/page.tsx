@@ -1,7 +1,6 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
 import { Controller, useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 
@@ -39,7 +38,6 @@ const page = () => {
     });
     const { createStoreMutation, isLoading } = useCreateStore();
     const dispatch = useDispatch();
-    const router = useRouter();
 
     const onSubmit = async (data: CreateStoreFormFields) => {
         const newStore = await createStoreMutation(data);
